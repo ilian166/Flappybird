@@ -1,4 +1,8 @@
-﻿<Window x:Class="Flappybird.MainWindow"
+﻿<Window
+        KeyDown="Window_KeyDown"
+        Focusable="True"
+        Loaded="Window_Loaded"
+        x:Class="Flappybird.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,15 +10,18 @@
         xmlns:local="clr-namespace:Flappybird"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+        
     <Grid>
-        <Canvas>
+        <Canvas x:Name="backgrd">
 
             <Canvas.Background>
-                <ImageBrush ImageSource="/Images/flappybckground.png"
-                    Stretch="UniformToFill"/>
+                <ImageBrush ImageSource="pack://application:,,,/Images/flappybckground.png" Stretch="UniformToFill"/>
             </Canvas.Background>
-            <Image Source="/Images/bird.png" Height="50" Width="50" HorizontalAlignment="Left" Canvas.Top="192" VerticalAlignment="Top" Canvas.Left="165"/>
-
+            <Image x:Name="Bird" Source="pack://application:,,,/Images/bird.png" Width="50" Height="50" Canvas.Left="165" Canvas.Top="192">
+                <Image.RenderTransform>
+                    <TranslateTransform x:Name="Birdmove"/>
+                </Image.RenderTransform>
+            </Image>
 
         </Canvas>
     </Grid>
