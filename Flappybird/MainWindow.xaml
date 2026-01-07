@@ -9,6 +9,13 @@
     <Grid>
         <Canvas>
 
+            <Canvas.Background>
+                <ImageBrush ImageSource="/Images/flappybckground.png"
+                    Stretch="UniformToFill"/>
+            </Canvas.Background>
+            <Image Source="/Images/bird.png" Height="50" Width="50" HorizontalAlignment="Left" Canvas.Top="192" VerticalAlignment="Top" Canvas.Left="165"/>
+
+
         </Canvas>
     </Grid>
 </Window>
