@@ -10,18 +10,39 @@
         xmlns:local="clr-namespace:Flappybird"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-        
+
     <Grid>
         <Canvas x:Name="backgrd">
 
             <Canvas.Background>
                 <ImageBrush ImageSource="pack://application:,,,/Images/flappybckground.png" Stretch="UniformToFill"/>
             </Canvas.Background>
-            <Image x:Name="Bird" Source="pack://application:,,,/Images/bird.png" Width="50" Height="50" Canvas.Left="165" Canvas.Top="192">
+            <Image x:Name="Bird" Source="pack://application:,,,/Images/bird.png" Width="50" Height="35" Canvas.Left="165" HorizontalAlignment="Center"  VerticalAlignment="Top" >
                 <Image.RenderTransform>
-                    <TranslateTransform x:Name="Birdmove"/>
+                    <TranslateTransform x:Name="Birdmove" Y="192"/>
                 </Image.RenderTransform>
             </Image>
+            <Button x:Name="normal" Content="normal" Canvas.Left="370" Canvas.Top="32" Height="42" Width="60" HorizontalAlignment="Left" VerticalAlignment="Center" Click="Easy_Click"/>
+            <Button x:Name="hard" Content="hard" Canvas.Left="430" Canvas.Top="32" Height="42" Width="60" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5">
+                <Button.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform AngleY="15.333"/>
+                        <RotateTransform/>
+                        <TranslateTransform Y="8.505"/>
+                    </TransformGroup>
+                </Button.RenderTransform>
+            </Button>
+            <Button x:Name="easy" Content="easy" Canvas.Left="310" Canvas.Top="31" Height="42" Width="60" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="0.483,0.584" Click="Easy_Copy1_Click">
+                <Button.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform AngleY="-15.333"/>
+                        <RotateTransform/>
+                        <TranslateTransform Y="8.505"/>
+                    </TransformGroup>
+                </Button.RenderTransform>
+            </Button>
 
         </Canvas>
     </Grid>
