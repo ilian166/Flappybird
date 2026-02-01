@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 
@@ -13,12 +14,20 @@ namespace Flappybird
     {
 
         double velocityY = 0;
-        const double gravity = 0.6;
+        double gravity = 0.6;
         const double jumpStrength = -10;
 
 
         DispatcherTimer timer;
         bool gameOver = false;
+
+        DispatcherTimer rainTimer;
+        bool isRaining = false;
+
+        DispatcherTimer fogTimer;
+        bool isFoggy = false;
+
+
 
 
         class Obstacle
@@ -34,7 +43,9 @@ namespace Flappybird
         const double pipeWidth = 60;
         const double gapHeight = 150;
         const double pipeSpeed = 3;
-        const double pipeSpacing = 300; 
+        const double pipeSpacing = 300;
+        double rain_chance = 0;
+        double fog_chance = 0;
 
         double lastPipeX = 0;
 
@@ -52,13 +63,15 @@ namespace Flappybird
                 Interval = TimeSpan.FromMilliseconds(16) 
             };
             timer.Tick += GameLoop;
-            timer.Start();
+            
 
             this.Focus();
+            
         }
 
         private void GameLoop(object sender, EventArgs e)
-        {
+        {   
+           
             if (gameOver) return;
 
             velocityY += gravity;
@@ -88,6 +101,23 @@ namespace Flappybird
                 lastPipeX -= pipeSpeed;
             }
 
+            double is_rain_happening = rnd.Next(1, 10000);
+
+            if (is_rain_happening < rain_chance)
+            {
+                StartRain(5);
+                gravity = 0.9;
+                
+            }
+
+            double is_fog_happening = rnd.Next(0, 10000);
+
+            if (is_fog_happening < fog_chance)
+            {
+                StartFog(4);
+            }
+
+
             CheckCollision();
             CheckScore();
         }
@@ -107,6 +137,7 @@ namespace Flappybird
                 Height = topHeight,
                 Fill = Brushes.Green
             };
+            Panel.SetZIndex(topPipe, 1);
             Canvas.SetLeft(topPipe, startX);
             Canvas.SetTop(topPipe, 0);
 
@@ -116,6 +147,7 @@ namespace Flappybird
                 Height = bottomHeight,
                 Fill = Brushes.Green
             };
+            Panel.SetZIndex(bottomPipe, 1);
             Canvas.SetLeft(bottomPipe, startX);
             Canvas.SetTop(bottomPipe, topHeight + gapHeight);
 
@@ -188,6 +220,99 @@ namespace Flappybird
             }
         }
 
-        
+        private void StartRain(int durationSeconds)
+        {
+            if (isRaining) return;
+
+            isRaining = true;
+            SetRainBackground();
+
+            rainTimer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromSeconds(durationSeconds)
+            };
+            rainTimer.Tick += StopRain;
+            rainTimer.Start();
+        }
+
+        private void StopRain(object sender, EventArgs e)
+        {
+            rainTimer.Stop();
+            rainTimer.Tick -= StopRain;
+
+            SetBackground();
+            gravity = 0.6;
+            isRaining = false;
+        }
+
+        private void StartFog(int durationSeconds)
+        {
+            if (isFoggy) return;
+
+            isFoggy = true;
+
+            FogOverlay.Opacity = 0.55;
+            FogOverlay.Visibility = Visibility.Visible;
+
+            fogTimer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromSeconds(durationSeconds)
+            };
+            fogTimer.Tick += StopFog;
+            fogTimer.Start();
+        }
+
+        private void StopFog(object sender, EventArgs e)
+{
+    fogTimer.Stop();
+    fogTimer.Tick -= StopFog;
+
+    FogOverlay.Opacity = 0;
+    FogOverlay.Visibility = Visibility.Collapsed;
+
+    isFoggy = false;
+}
+
+
+        private void SetRainBackground()
+        {
+            BackgroundBrush.ImageSource =
+                new BitmapImage(new Uri("pack://application:,,,/Images/flappybackrain.png"));
+        }
+        private void SetBackground()
+        {
+            BackgroundBrush.ImageSource =
+                new BitmapImage(new Uri("pack://application:,,,/Images/flappybckground.png"));
+        }
+
+        private void easy_Click(object sender, RoutedEventArgs e)
+        {
+            timer.Start();
+            easy.Visibility = Visibility.Collapsed;
+            normal.Visibility = Visibility.Collapsed;
+            hard.Visibility = Visibility.Collapsed;
+
+            
+        }
+
+        private void normal_Click(object sender, RoutedEventArgs e)
+        {
+            timer.Start();
+            easy.Visibility = Visibility.Collapsed;
+            normal.Visibility = Visibility.Collapsed;
+            hard.Visibility = Visibility.Collapsed;
+            rain_chance = 30;
+            fog_chance = 10;
+        }
+
+        private void hard_Click(object sender, RoutedEventArgs e)
+        {
+            timer.Start();
+            easy.Visibility = Visibility.Collapsed;
+            normal.Visibility = Visibility.Collapsed;
+            hard.Visibility = Visibility.Collapsed;
+            rain_chance = 200;
+            fog_chance = 30;
+        }
     }
 }

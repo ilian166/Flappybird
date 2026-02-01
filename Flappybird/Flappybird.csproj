@@ -10,14 +10,22 @@
 
   <ItemGroup>
     <None Remove="Images\bird.png" />
+    <None Remove="Images\flappybackrain.png" />
     <None Remove="Images\flappybckground.png" />
+    <None Remove="Images\flappyfog.png" />
   </ItemGroup>
 
   <ItemGroup>
     <Resource Include="Images\bird.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Images\flappybackrain.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Images\flappybckground.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\flappyfog.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
